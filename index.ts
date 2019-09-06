@@ -1,12 +1,17 @@
 import hogan from 'hogan.js'
 import * as fs from 'fs'
+import VoluntaryActivitySign from './providers/VoluntaryActivitySign'
 
 const run = async () => {
   const base = fs.readFileSync('./templates/base.mustache', 'utf8')
-  const voluntaryActivitySign = fs.readFileSync(
-    './templates/voluntaryActivitySign.mustache',
-    'utf8'
-  )
+  const voluntaryActivitySign = new VoluntaryActivitySign({
+    appId: '1',
+    signInOnChainId: '2',
+    signOutOnChainId: '3',
+  })
+
+  const html = await voluntaryActivitySign.render()
+
   const partner = fs.readFileSync('./templates/partner.mustache', 'utf8')
   const template = hogan.compile(base)
 
@@ -20,20 +25,10 @@ const run = async () => {
         link: 'https://www.zyh365.com',
       },
       content: {
-        name: 'fei',
-        age: 1,
-        signInRaw: {
-          token: 'va.AzE5.ey5A6LNvvMt:vai.AzE5.F60vgQGraeT',
-          display: '签到',
-        },
-        signOutRaw: {
-          token: 'va.AzE5.ey5A6LNvvMt:vai.AzE5.F60vgQGraeT',
-          display: '签退',
-        },
+        html,
       },
     },
     {
-      template: hogan.compile(voluntaryActivitySign),
       partner: hogan.compile(partner),
     }
   )

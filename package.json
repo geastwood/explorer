@@ -16,6 +16,7 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
+    "evtjs": "^5.4.15",
     "hogan.js": "^3.0.2"
   }
 }
