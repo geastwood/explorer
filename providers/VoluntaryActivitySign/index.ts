@@ -20,12 +20,13 @@ class VoluntaryActivitySign {
       domain: {
         id: 'va.AzE5.ey5A6LNvvMt',
         detail: {
-          name: 'whatnot',
-          description: 'description',
+          name: '扫大街',
+          description: 'some really <b>long</b> description',
         },
       },
       signIn: {
-        id: 'F60vgQGraeT',
+        id: 'va.AzE5.ey5A6LNvvMt:vai.AzE5.F60vgQGraeT',
+        name: 'F60vgQGraeT',
         trx: {
           blockNum: 68721488,
           id:
@@ -36,7 +37,8 @@ class VoluntaryActivitySign {
         },
       },
       signOut: {
-        id: 'rDFwOWFjtdE',
+        id: 'va.AzE5.ey5A6LNvvMt:vao.AzE5.rDFwOWFjtdE',
+        name: 'rDFwOWFjtdE',
         trx: {
           blockNum: 68721489,
           id:
@@ -55,8 +57,16 @@ class VoluntaryActivitySign {
       path.join(__dirname, 'template.mustache'),
       'utf8'
     )
+    const everitokenLogo = fs.readFileSync(
+      path.join(__dirname, '../../templates/helpers/everitoken.mustache'),
+      'utf8'
+    )
     const blockLink = fs.readFileSync(
       path.join(__dirname, '../../templates/helpers/blockLink.mustache'),
+      'utf8'
+    )
+    const domain = fs.readFileSync(
+      path.join(__dirname, '../../templates/helpers/domain.mustache'),
       'utf8'
     )
 
@@ -64,6 +74,8 @@ class VoluntaryActivitySign {
 
     return compiled.render(data, {
       blockLink: hogan.compile(blockLink),
+      everitoken: hogan.compile(everitokenLogo),
+      domain: hogan.compile(domain),
     })
   }
 }
