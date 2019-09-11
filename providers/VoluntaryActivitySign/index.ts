@@ -25,7 +25,6 @@ class VoluntaryActivitySign {
 
     if (vctcInfo) {
       domainDisplayable = vctcInfo.getDisplayable()
-      console.log(domainDisplayable)
     }
 
     return {

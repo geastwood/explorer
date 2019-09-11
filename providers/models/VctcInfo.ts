@@ -39,7 +39,7 @@ class VctcInfo {
     district: [null, identity, '地区'],
     address: [null, identity, '地址'],
     memo: [null, identity, '备注'],
-    categories: [['first', 'second'], identity, '类别'],
+    categories: [[], identity, '类别'],
   }
 
   constructor(data: Data, creator: string) {
@@ -71,16 +71,14 @@ class VctcInfo {
 
         let markup = carry.markup
 
-        if (tmp != null) {
-          if (Array.isArray(tmp) && tmp.length > 0) {
-            markup = carry.markup.concat(
-              `<li><b>${display}</b>: ${tmp.map(htmlEntities).join('、')}</li>`
-            )
-          } else {
-            markup = carry.markup.concat(
-              `<li><b>${display}</b>: ${htmlEntities(tmp)}</li>`
-            )
-          }
+        if (Array.isArray(tmp) && tmp.length > 0) {
+          markup = carry.markup.concat(
+            `<li><b>${display}</b>: ${tmp.map(htmlEntities).join('、')}</li>`
+          )
+        } else if (tmp != null && !Array.isArray(tmp)) {
+          markup = carry.markup.concat(
+            `<li><b>${display}</b>: ${htmlEntities(tmp)}</li>`
+          )
         }
 
         if (i === fields.length - 1) {
