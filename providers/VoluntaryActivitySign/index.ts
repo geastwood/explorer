@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import hogan from 'hogan.js'
 import * as path from 'path'
+import { getDomainDetail } from '../utils'
 
 type Opts = {
   domain: string
@@ -17,13 +18,20 @@ class VoluntaryActivitySign {
   }
 
   async get(): Promise<any> {
+    const { domain } = this.opts
+    const { detail, vctcInfo } = await getDomainDetail(domain)
+
+    let domainDisplayable = {}
+
+    if (vctcInfo) {
+      domainDisplayable = vctcInfo.getDisplayable()
+      console.log(domainDisplayable)
+    }
+
     return {
       domain: {
-        id: 'va.AzE5.ey5A6LNvvMt',
-        detail: {
-          name: '扫大街',
-          description: 'some really long description',
-        },
+        id: domain,
+        detail: domainDisplayable,
       },
       signIn: {
         id: 'va.AzE5.ey5A6LNvvMt:vai.AzE5.F60vgQGraeT',

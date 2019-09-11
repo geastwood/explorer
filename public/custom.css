@@ -22,3 +22,7 @@
   font-size: 0.8em;
   padding: 8px;
 }
+
+.popover-content ul {
+  padding-left: 10px;
+}

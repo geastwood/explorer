@@ -1,3 +1,18 @@
+{
+  markup: '<ul><li><b>id</b>: huodong0</li><li><b>类别</b>: first、second</li></ul>',
+  id: 'huodong0',
+  createTime: null,
+  title: null,
+  desc: null,
+  organization: null,
+  organizationId: null,
+  openTime: null,
+  closeTime: null,
+  district: null,
+  address: null,
+  memo: null,
+  categories: [ 'first', 'second' ]
+}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,7 +37,10 @@
 </h5>
 
 <h4>所属域</h4>
-<h5 data-toggle="tooltip" data-placement="top" title="some really long description">扫大街 (id: va.AzE5.ey5A6LNvvMt)</h5>
+<h5 class="domain-section">va.AzE5.ey5A6LNvvMt ()
+  <div data-toggle="popover" data-title="所属域" data-container="body" data-placement="top" data-content="<ul><li><b>id</b>: huodong0</li><li><b>类别</b>: first、second</li></ul>" class="glyphicon glyphicon-info-sign" aria-hidden="true" style="top:2px; padding-left: 5px;"></div>
+</h5>
+
 <h4>签到编号</h4>
 <p>F60vgQGraeT</p>
 <h4>签退编号</h4>
@@ -54,7 +72,7 @@
         <script src="./lib.js"></script>
         <script>
             $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
+                $('[data-toggle="popover"]').popover({html:true})
             })
         </script>
     </body>
