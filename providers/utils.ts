@@ -1,5 +1,5 @@
 import Evt from 'evtjs'
-import VctcInfo from './models/VctcInfo'
+import DomainVctcInfo from './models/DomainVctcInfo'
 import moment from 'moment'
 
 export const getDomainDetail = async (name: string) => {
@@ -13,7 +13,7 @@ export const getDomainDetail = async (name: string) => {
   })
 
   const detail = await apiCaller.getDomainDetail(name)
-  const vctcInfo = VctcInfo.createFromMeta(detail.metas || [])
+  const vctcInfo = DomainVctcInfo.createFromMeta(detail.metas || [])
 
   return {
     detail,

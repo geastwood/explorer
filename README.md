@@ -13,4 +13,6 @@ fswatch -o templates ./index.ts providers | xargs -n 1 -I {} yarn release
 yarn dev
 ```
 
+## Todos
 
+* add cache on domain detail fetch

@@ -26,3 +26,9 @@
 .popover-content ul {
   padding-left: 10px;
 }
+
+p {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
