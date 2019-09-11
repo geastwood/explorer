@@ -3,9 +3,10 @@ import hogan from 'hogan.js'
 import * as path from 'path'
 
 type Opts = {
-  appId: string
-  signInOnChainId: string
-  signOutOnChainId: string
+  domain: string
+  signInTrx: string
+  signOutTrx: string
+  decryptFn: (payload: string) => string
 }
 
 class VoluntaryActivitySign {
@@ -21,7 +22,7 @@ class VoluntaryActivitySign {
         id: 'va.AzE5.ey5A6LNvvMt',
         detail: {
           name: '扫大街',
-          description: 'some really <b>long</b> description',
+          description: 'some really long description',
         },
       },
       signIn: {
