@@ -16,3 +16,5 @@ yarn dev
 ## Todos
 
 * add cache on domain detail fetch
+* handle encrypted data
+* support multi-lang

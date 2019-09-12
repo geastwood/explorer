@@ -2,16 +2,17 @@ import Evt from 'evtjs'
 import DomainVctcInfo from './models/DomainVctcInfo'
 import moment from 'moment'
 
-export const getDomainDetail = async (name: string) => {
-  const apiCaller = Evt({
-    // replace with vctc helper
+const getApiCaller = () =>
+  Evt({
+    // TODO: replace with vctc helper
     endpoint: {
       host: 'mainnet4.everitoken.io',
       port: 443,
       protocol: 'https',
     },
   })
-
+export const getDomainDetail = async (name: string) => {
+  const apiCaller = getApiCaller()
   const detail = await apiCaller.getDomainDetail(name)
   const vctcInfo = DomainVctcInfo.createFromMeta(detail.metas || [])
 
@@ -21,12 +22,17 @@ export const getDomainDetail = async (name: string) => {
   }
 }
 
-export const formatTime = (time: number | null) => {
+export const getTrxDetail = async (trxId: string) => {
+  const apiCaller = getApiCaller()
+  return apiCaller.getTransactionDetailById(trxId)
+}
+
+export const formatTime = (time: string | number | null) => {
   if (!time) {
     return null
   }
 
-  return moment(time).toLocaleString()
+  return moment(Number(time)).toLocaleString()
 }
 
 export const identity = <T>(v: T): T => v

@@ -1,7 +1,12 @@
 import * as fs from 'fs'
+
 import hogan from 'hogan.js'
+
 import * as path from 'path'
-import { getDomainDetail } from '../utils'
+
+import { getDomainDetail, getTrxDetail } from '../utils'
+import SignInData from '../models/SignInData'
+import get from 'lodash.get'
 
 type Opts = {
   domain: string
@@ -18,13 +23,16 @@ class VoluntaryActivitySign {
   }
 
   async get(): Promise<any> {
-    const { domain } = this.opts
+    const { domain, signInTrx } = this.opts
+
     const { detail, vctcInfo } = await getDomainDetail(domain)
+    const signInTrxDetail = await getTrxDetail(signInTrx)
+    const signInData = SignInData.createFromTrx(signInTrxDetail)
 
     let domainDisplayable = {}
 
     if (vctcInfo) {
-      domainDisplayable = vctcInfo.getDisplayable()
+      domainDisplayable = vctcInfo.getMarkup()
     }
 
     return {
@@ -33,12 +41,11 @@ class VoluntaryActivitySign {
         detail: domainDisplayable,
       },
       signIn: {
-        id: 'va.AzE5.ey5A6LNvvMt:vai.AzE5.F60vgQGraeT',
-        name: 'F60vgQGraeT',
+        id: get(signInData.getFullNames(), 0, ''),
+        name: signInData.getNames().join(', '),
         trx: {
-          blockNum: 68721488,
-          id:
-            'a281fa0f5484fe49e5bc28291e4436d7dbfdaf956fbef0fb1685b0ea93756825',
+          blockNum: get(signInTrxDetail, 'block_num', 0),
+          id: signInTrx,
         },
         detail: {
           createdTime: Date.now(),
@@ -46,7 +53,7 @@ class VoluntaryActivitySign {
       },
       signOut: {
         id: 'va.AzE5.ey5A6LNvvMt:vao.AzE5.rDFwOWFjtdE',
-        name: 'rDFwOWFjtdE',
+        name: signInData.getNames().join(', '),
         trx: {
           blockNum: 68721489,
           id:
