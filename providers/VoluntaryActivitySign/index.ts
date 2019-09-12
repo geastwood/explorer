@@ -5,7 +5,7 @@ import hogan from 'hogan.js'
 import * as path from 'path'
 
 import { getDomainDetail, getTrxDetail } from '../utils'
-import SignInData from '../models/SignInData'
+import SignData from '../models/SignInData'
 import get from 'lodash.get'
 
 type Opts = {
@@ -23,15 +23,19 @@ class VoluntaryActivitySign {
   }
 
   async get(): Promise<any> {
-    const { domain, signInTrx } = this.opts
+    const { domain, signInTrx, signOutTrx } = this.opts
 
     const { vctcInfo } = await getDomainDetail(domain)
     const signInTrxDetail = await getTrxDetail(signInTrx)
-    const signInData = SignInData.createFromTrx(signInTrxDetail)
+    const signInData = SignData.createSignIn(signInTrxDetail)
+    const signOutTrxDetail = await getTrxDetail(signOutTrx)
+    const signOutData = SignData.createSignOut(signOutTrxDetail)
 
     const signInMetaData = signInData.getMeta()
+    const signOutMetaData = signOutData.getMeta()
     let domainDisplayable = {}
     let signInDisplayable = {}
+    let signOutDisplayable = {}
 
     if (vctcInfo) {
       domainDisplayable = vctcInfo.getMarkup()
@@ -41,7 +45,9 @@ class VoluntaryActivitySign {
       signInDisplayable = signInMetaData.getMarkup()
     }
 
-    // console.log(signInDisplayable)
+    if (signOutMetaData) {
+      signOutDisplayable = signOutMetaData.getMarkup()
+    }
 
     return {
       domain: {
@@ -61,16 +67,13 @@ class VoluntaryActivitySign {
       },
       signOut: {
         title: '签退编号',
-        id: 'va.AzE5.ey5A6LNvvMt:vao.AzE5.rDFwOWFjtdE',
-        name: signInData.getNames().join(', '),
+        id: get(signOutData.getFullNames(), 0, ''),
+        name: signOutData.getNames().join(', '),
         trx: {
-          blockNum: 68721489,
-          id:
-            'e88e29f9931292fd19a12a5efde071404761f5dc5fcaf294a53bb9985cd64c4e',
+          blockNum: get(signOutTrxDetail, 'block_num', 0),
+          id: signOutTrx,
         },
-        detail: {
-          createdTime: Date.now(),
-        },
+        detail: signOutDisplayable,
       },
     }
   }

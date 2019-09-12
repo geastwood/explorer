@@ -1,12 +1,14 @@
 import VctcInfo from './VctcInfo'
 import SignInVctcInfo from './SignInVctcInfo'
+import SignOutVctcInfo from './SignOutVctcInfo'
+
 import get from 'lodash.get'
 
-class SignInData {
+class SignData {
   private actions: string[]
   private domain: string
   private nftNames: string[]
-  private meta: SignInVctcInfo
+  private meta: SignInVctcInfo | SignOutVctcInfo
 
   constructor(
     actions: string[],
@@ -35,7 +37,9 @@ class SignInData {
     return meta.getData()
   }
 
-  static createFromTrx = (trx: any) => {
+  static createSignIn = (trx: any) => SignData.createFromTrx(trx, true)
+  static createSignOut = (trx: any) => SignData.createFromTrx(trx, false)
+  static createFromTrx = (trx: any, isSignIn: boolean = true) => {
     const actions = get(trx, 'transaction.actions', [])
 
     if (actions.length !== 2) {
@@ -55,15 +59,18 @@ class SignInData {
       )
     }
 
-    return new SignInData(
+    const Ctor = isSignIn ? SignInVctcInfo : SignOutVctcInfo
+
+    return new SignData(
       ['issuetoken', 'addmeta'],
       issueToken.domain,
       get(issueToken, 'data.names', []),
-      new SignInVctcInfo(
+      new Ctor(
         JSON.parse(get(addmeta, 'data.value', {})),
         get(addmeta, 'data.creator')
       )
     )
   }
 }
-export default SignInData
+
+export default SignData
