@@ -25,33 +25,42 @@ class VoluntaryActivitySign {
   async get(): Promise<any> {
     const { domain, signInTrx } = this.opts
 
-    const { detail, vctcInfo } = await getDomainDetail(domain)
+    const { vctcInfo } = await getDomainDetail(domain)
     const signInTrxDetail = await getTrxDetail(signInTrx)
     const signInData = SignInData.createFromTrx(signInTrxDetail)
 
+    const signInMetaData = signInData.getMeta()
     let domainDisplayable = {}
+    let signInDisplayable = {}
 
     if (vctcInfo) {
       domainDisplayable = vctcInfo.getMarkup()
     }
 
+    if (signInMetaData) {
+      signInDisplayable = signInMetaData.getMarkup()
+    }
+
+    // console.log(signInDisplayable)
+
     return {
       domain: {
+        title: '所属域',
         id: domain,
         detail: domainDisplayable,
       },
       signIn: {
+        title: '签到编号',
         id: get(signInData.getFullNames(), 0, ''),
         name: signInData.getNames().join(', '),
         trx: {
           blockNum: get(signInTrxDetail, 'block_num', 0),
           id: signInTrx,
         },
-        detail: {
-          createdTime: Date.now(),
-        },
+        detail: signInDisplayable,
       },
       signOut: {
+        title: '签退编号',
         id: 'va.AzE5.ey5A6LNvvMt:vao.AzE5.rDFwOWFjtdE',
         name: signInData.getNames().join(', '),
         trx: {
@@ -84,6 +93,10 @@ class VoluntaryActivitySign {
       path.join(__dirname, '../../templates/helpers/domain.mustache'),
       'utf8'
     )
+    const sign = fs.readFileSync(
+      path.join(__dirname, '../../templates/helpers/sign.mustache'),
+      'utf8'
+    )
 
     const compiled = hogan.compile(template)
 
@@ -91,6 +104,7 @@ class VoluntaryActivitySign {
       blockLink: hogan.compile(blockLink),
       everitoken: hogan.compile(everitokenLogo),
       domain: hogan.compile(domain),
+      sign: hogan.compile(sign),
     })
   }
 }

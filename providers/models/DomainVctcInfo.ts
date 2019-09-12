@@ -1,5 +1,5 @@
 import VctcInfo, { Data, VctcMeta } from './VctcInfo'
-import { identity, formatTime, htmlEntities } from '../utils'
+import { identity, formatTime  } from '../utils'
 
 class DomainVctcInfo extends VctcInfo {
   static createFromMeta = (metas: VctcMeta[]) => {
@@ -32,7 +32,6 @@ class DomainVctcInfo extends VctcInfo {
   constructor(data: Data, creator: string) {
     super(data, creator)
   }
-
 }
 
 export default DomainVctcInfo

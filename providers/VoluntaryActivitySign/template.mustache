@@ -1,14 +1,15 @@
 <h4>区块编号</h4>
 <h5>签到：{{#signIn.trx}}{{>blockLink}}{{/signIn.trx}} / 签退：{{#signOut.trx}}{{>blockLink}}{{/signOut.trx}}</h5>
 
-<h4>所属域</h4>
 {{#domain}}
 {{>domain}}
 {{/domain}}
-<h4>签到编号</h4>
-<p>{{signIn.name}}</p>
-<h4>签退编号</h4>
-<p>{{signOut.name}}</p>
+{{#signIn}}
+{{>sign}}
+{{/signIn}}
+{{#signOut}}
+{{>sign}}
+{{/signOut}}
 <h4>区块链技术</h4>
 {{>everitoken}}
 <h4>链上事务编号</h4>
