@@ -1,5 +1,5 @@
 import VctcInfo, { Data, VctcMeta } from './VctcInfo'
-import { identity, formatTime  } from '../utils'
+import { identity, formatTime } from '../utils'
 
 class DomainVctcInfo extends VctcInfo {
   static createFromMeta = (metas: VctcMeta[]) => {
@@ -17,12 +17,12 @@ class DomainVctcInfo extends VctcInfo {
   } = {
     id: [null, identity, 'id'],
     createTime: [null, formatTime, '创建时间'],
-    title: ['title', identity, '名称'],
-    desc: ['description', identity, '介绍'],
-    organization: ['whato', identity, '机构'],
-    organizationId: ['slkfe', identity, '机构Id'],
+    title: [null, identity, '名称'],
+    desc: [null, identity, '介绍'],
+    organization: [null, identity, '机构'],
+    organizationId: [null, identity, '机构Id'],
     openTime: [null, formatTime, '开始时间'],
-    closeTime: [Date.now(), formatTime, '结束时间'],
+    closeTime: [null, formatTime, '结束时间'],
     district: [null, identity, '地区'],
     address: [null, identity, '地址'],
     memo: [null, identity, '备注'],
